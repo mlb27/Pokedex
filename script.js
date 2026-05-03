@@ -1,57 +1,61 @@
-let mainRef = "";
-let cardStatRef = "";
+let mainRef;
+let cardRef;
+let cardStatRef;
 
-let response = "";
-let responseAsJson = "";
+let responseAsJson;
+let pokemonAsJson;
 
-let pokemon = "";
-let pokemonAsJson = "";
-let currentLimit = 10;
+let pName;
+let pSerial;
+let pImg;
 
-let pName = "";
-let pSerial = "";
-let pStat = "";
-let pImg = "";
-
+let currentOffset = 0;
 const BASE_URL = "https://pokeapi.co/api/v2/";
-const LIMIT = "pokemon?limit=" + currentLimit + "&offset=0";
+const PAGE_SIZE = 100;
 
 function init() {
     loadData();
 }
 
 async function loadData() {
-    response = await fetch(BASE_URL + LIMIT);
+    let response = await fetch(`${BASE_URL}pokemon?limit=${PAGE_SIZE}&offset=${currentOffset}`);
     responseAsJson = await response.json();
-    getPokemonData();
+
+    await getPokemonData(responseAsJson);
+
+    currentOffset += PAGE_SIZE;
 }
 
-async function getPokemonData() {
+async function loadMore() {
+    await loadData();
+}
+
+async function getPokemonData(responseAsJson) {
     for (let i = 0; i < responseAsJson.results.length; i++) {
         pokemon = await fetch(responseAsJson.results[i].url);
         pokemonAsJson = await pokemon.json();
 
         pName = pokemonAsJson.name;
         pSerial = pokemonAsJson.id;
-        renderCard(pName, pSerial);
-        getPokemonType(pokemonAsJson);
+        pImg = pokemonAsJson.sprites.front_default;
+
+        renderCard(pokemonAsJson, pSerial);
     }
+
+    console.log("Fertig");
 }
 
-function getPokemonType(ref) {
-    for (let i = 0; i < ref.types.length; i++) {
-        stat = ref.types[i].type.name;
-        renderStat(stat);
-    }
-}
-
-function renderCard(name, serial) {
+function renderCard(ref, id) {
     mainRef = document.getElementById("main");
-    mainRef.innerHTML += cardTemplate(name, serial);
+    mainRef.innerHTML += cardTemplate();
 
-    renderStat("test");
-}
+    for (let i = 0; i < ref.types.length; i++) {
+        cardRef = document.getElementById(`card${pSerial}`);
+        const type = ref.types[i].type.name;
 
-function renderStat(stat) {
-    cardStatRef;
+        cardStatRef = document.getElementById(`card-info${pSerial}`);
+        cardStatRef.innerHTML += returnStatTemplate(type);
+
+        renderBackgroundColor(type);
+    }
 }

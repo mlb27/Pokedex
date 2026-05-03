@@ -6,7 +6,6 @@
     border-style: solid;
     border-radius: 8px;
     border-color: white;
-    background-color: #78c850;
 
     margin: 16px;
     padding: 16px;
@@ -14,27 +13,51 @@
 
     filter: drop-shadow(1px 1px 5px #ffffff67);
 }
-.card img{
+.card:hover {
+    filter: drop-shadow(1px 1px 5px #ffffff);
+    transform: scale(1.01);
+}
+.card img {
+    transition: all 0.1s ease;
     position: absolute;
     right: 16px;
     height: 150px;
     width: 150px;
 }
-.card:hover {
+.card img:hover {
     filter: drop-shadow(1px 1px 5px #ffffff);
-    transform: scale(1.01);
+    transform: scale(1.05);
 }
+.card h2::first-letter {
+    text-transform: capitalize;
+}
+
 .card-info {
     position: absolute;
     bottom: 16px;
     left: 16px;
     gap: 8px;
 }
+
 .stat {
     padding: 6px;
     border-radius: 16px;
     border-color: white;
     border-style: solid;
 }
+.stat p::first-letter {
+    text-transform: capitalize;
+}
 
+/* Filter Buttons */
 
+.filter-btn {
+    padding: 4px 10px;
+    border-radius: 16px;
+    border-color: white;
+    border-style: solid;
+    max-width: 360px;
+}
+.filter-btn:hover {
+    cursor: pointer;
+}

@@ -1,13 +1,22 @@
 nav {
-    background-color: #ff0000;
-
+    position: sticky;
+    top: 0;
+    z-index: 10;
     height: 128px;
+    border-bottom: 2px solid white;
+    padding: 0px 128px;
 }
 nav img {
     height: 100px;
     width: 100px;
+    transition: all 0.1s ease;
+}
+nav img:hover {
+    cursor: pointer;
+    filter: drop-shadow(1px 1px 5px #ffffff);
+    transform: scale(1.01);
 }
 
-body {
-    background-color: #800000;
+footer img {
+    height: 50px;
 }

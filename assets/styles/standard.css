@@ -7,14 +7,33 @@ body {
     margin: 0;
     font-family: "Roboto", sans-serif;
 }
+* {
+    scroll-behavior: smooth;
+}
 
 /* Alignment */
 
 .flex {
     display: flex;
 }
+.flex1 {
+    flex: 1;
+}
+.flex-wrap {
+    flex-wrap: wrap;
+}
+.flex-break {
+    flex-basis: 100%;
+    height: 0;
+}
 .jc-c {
     justify-content: center;
+}
+.jc-sb {
+    justify-content: space-between;
+}
+.jc-e {
+    justify-content: flex-end;
 }
 .alig-i-c {
     align-items: center;
@@ -28,6 +47,12 @@ body {
 .flex-d-column {
     flex-direction: column;
 }
+.flex-d-row {
+    flex-direction: row;
+}
+.flex-wrap {
+    flex-wrap: wrap;
+}
 
 /* Text */
 
@@ -39,4 +64,60 @@ p {
     margin-block-end: 0;
     margin-block-start: 0;
     color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+/* Padding & Margin */
+
+.p-b16 {
+    padding-bottom: 16px;
+}
+
+/* Gap */
+
+.gap4-8 {
+    gap: 4px 8px;
+}
+
+/* Color */
+
+.white {
+    color: #ffffff;
+}
+
+.s-grey {
+    /* Standard Grey */
+    color: #1c1e21;
+}
+.bg-s-grey {
+    background-color: #1c1e21;
+}
+
+.bg-grey {
+    background-color: #3a3b3c;
+}
+
+.yellow-p {
+    /* Yellow Primary */
+    color: #ffcb05;
+}
+
+/* Button */
+
+button {
+    padding-block: 0;
+    padding-inline: 0;
+}
+
+/* Anzeige */
+
+.d-none {
+    display: none;
 }

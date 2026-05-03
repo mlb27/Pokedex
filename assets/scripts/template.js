@@ -1,17 +1,14 @@
 function cardTemplate() {
-    return `<div class="card">
-                <h2>${pName}</h2>
-                <img src="./assets/img/bulbasaur.png" alt="${pName}" />
+    return `<div class="card" id="card${pSerial}">
+                <h2 class="pokemonName">${pName}</h2>
+                <img src="${pImg}" alt="${pName}" />
                 <p>#${pSerial}</p>
-                <div class="card-info flex flex-d-column align-i-fs"
-                    id="card-info">
-                    ${returnStatTemplate()}
-                </div>
+                <div class="card-info flex flex-d-column align-i-fs" id="card-info${pSerial}"></div>
             </div>`;
 }
 
-function returnStatTemplate() {
+function returnStatTemplate(type) {
     return `<div class="stat">
-                <p>${pStat}</p>
+                <p>${type}</p>
             </div>`;
 }
