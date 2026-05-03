@@ -1,0 +1,42 @@
+@font-face {
+    font-family: "Roboto", sans-serif;
+    src: url("./assets/font/Roboto-VariableFont_wdth,wght.ttf") format("truetype-variations");
+}
+
+body {
+    margin: 0;
+    font-family: "Roboto", sans-serif;
+}
+
+/* Alignment */
+
+.flex {
+    display: flex;
+}
+.jc-c {
+    justify-content: center;
+}
+.alig-i-c {
+    align-items: center;
+}
+.alig-i-end {
+    align-items: flex-end;
+}
+.align-i-fs {
+    align-items: flex-start;
+}
+.flex-d-column {
+    flex-direction: column;
+}
+
+/* Text */
+
+h1,
+h2,
+h3,
+h4,
+p {
+    margin-block-end: 0;
+    margin-block-start: 0;
+    color: white;
+}

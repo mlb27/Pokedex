@@ -1,0 +1,13 @@
+nav {
+    background-color: #ff0000;
+
+    height: 128px;
+}
+nav img {
+    height: 100px;
+    width: 100px;
+}
+
+body {
+    background-color: #800000;
+}
