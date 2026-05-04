@@ -8,10 +8,9 @@ async function searchForPokemon() {
         let card = nameRefs[i].parentElement;
 
         if (pokemonName.includes(search)) {
-            card.classList.remove("d-none")
-        }
-        else {
-            card.classList.add("d-none")
+            card.classList.remove("d-none");
+        } else {
+            card.classList.add("d-none");
         }
     }
 }

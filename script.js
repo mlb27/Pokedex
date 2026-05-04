@@ -4,6 +4,7 @@ let cardStatRef;
 
 let responseAsJson;
 let pokemonAsJson;
+let loadedPokemon = {};
 
 let pName;
 let pSerial;
@@ -20,10 +21,9 @@ function init() {
 async function loadData() {
     let response = await fetch(`${BASE_URL}pokemon?limit=${PAGE_SIZE}&offset=${currentOffset}`);
     responseAsJson = await response.json();
+    currentOffset += PAGE_SIZE;
 
     await getPokemonData(responseAsJson);
-
-    currentOffset += PAGE_SIZE;
 }
 
 async function loadMore() {
@@ -31,6 +31,9 @@ async function loadMore() {
 }
 
 async function getPokemonData(responseAsJson) {
+    let loadingDialogRef = document.getElementById("loading");
+    loadingDialogRef.showModal();
+
     for (let i = 0; i < responseAsJson.results.length; i++) {
         pokemon = await fetch(responseAsJson.results[i].url);
         pokemonAsJson = await pokemon.json();
@@ -40,9 +43,10 @@ async function getPokemonData(responseAsJson) {
         pImg = pokemonAsJson.sprites.front_default;
 
         renderCard(pokemonAsJson, pSerial);
+        searchForPokemon();
     }
 
-    console.log("Fertig");
+    loadingDialogRef.close();
 }
 
 function renderCard(ref, id) {

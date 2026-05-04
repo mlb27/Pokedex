@@ -1,5 +1,5 @@
 function cardTemplate() {
-    return `<div class="card" id="card${pSerial}">
+    return `<div onclick="showDialog(${pSerial})" class="card" id="card${pSerial}">
                 <h2 class="pokemonName">${pName}</h2>
                 <img src="${pImg}" alt="${pName}" />
                 <p>#${pSerial}</p>

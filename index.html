@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="de">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,36 +10,17 @@
         <link rel="stylesheet" href="./assets/styles/backgrounds.css" />
         <link rel="stylesheet" href="./assets/styles/button.css" />
         <link rel="stylesheet" href="./assets/styles/input.css" />
+        <link rel="stylesheet" href="./assets/styles/dialog.css" />
+        <script type="module" src="./node_modules/js-circle-progress/dist/circle-progress.min.js"></script>
         <script src="./script.js"></script>
         <script src="./assets/scripts/template.js"></script>
         <script src="./assets/scripts/backgrounds.js"></script>
         <script src="./assets/scripts/search.js"></script>
+        <script src="./assets/scripts/dialog.js"></script>
     </head>
     <body onload="init()" class="p-b16 bg-grey">
         <nav class="flex jc-sb alig-i-c bg-s-grey">
-            <div class="white flex flex1">
-                <div class="flex flex-d-column">
-                    <span class="flex flex-d-row flex-wrap gap4-8">
-                        <button onclick="filter('fire')" class="filter-btn bg-fire white">Fire</button>
-                        <button onclick="filter('grass')" class="filter-btn bg-grass white">Grass</button>
-                        <button onclick="filter('water')" class="filter-btn bg-water white">Water</button>
-                        <button onclick="filter('bug')" class="filter-btn bg-bug white">Bug</button>
-                        <button onclick="filter('normal')" class="filter-btn bg-normal white">Normal</button>
-                        <button onclick="filter('ground')" class="filter-btn bg-ground white">Ground</button>
-                        <button onclick="filter('poison')" class="filter-btn bg-poison white">Poison</button>
-                        <button onclick="filter('fairy')" class="filter-btn bg-fairy">Fairy</button>
-                        <button onclick="filter('electric')" class="filter-btn bg-electric">Electric</button>
-                        <button onclick="filter('fighting')" class="filter-btn bg-fighting white">Fighting</button>
-                        <button onclick="filter('psychic')" class="filter-btn bg-psychic white">Psychic</button>
-                        <button onclick="filter('flying')" class="filter-btn bg-flying white">Flying</button>
-                        <button onclick="filter('ice')" class="filter-btn bg-ice white">Ice</button>
-                        <button onclick="filter('dragon')" class="filter-btn bg-dragon">Dragon</button>
-                        <button onclick="filter('dark')" class="filter-btn bg-dark white">Dark</button>
-                        <button onclick="filter('rock')" class="filter-btn bg-rock white">Rock</button>
-                        <button onclick="filter('ghost')" class="filter-btn bg-ghost">Ghost</button>
-                    </span>
-                </div>
-            </div>
+            <div class="white flex flex1"></div>
             <img class="flex" src="./assets/img/pokeball.png" alt="Pokeball" onclick="window.scrollTo({ top: 0 })" />
             <div class="flex flex1 jc-e">
                 <div class="input-group">
@@ -53,6 +34,14 @@
         <footer class="flex jc-c alig-i-c flex-d-column">
             <img src="./assets/img/pokedex.png" alt="Pokedex" class="p-b16" />
             <p>Made by <a href="https://github.com/mlb27" class="yellow-p">kyr0nix</a></p>
+            <p>Input field from Uiverse.io by alexruix</p>
+            <p>Circle Progress by Tigran Sargsyan</p>
         </footer>
+        <dialog id="loading">
+            <div class="anim-wrapper">
+                <div class="anim-pokeball"></div>
+            </div>
+        </dialog>
+        <dialog id="info"></dialog>
     </body>
 </html>

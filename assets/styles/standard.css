@@ -121,3 +121,12 @@ button {
 .d-none {
     display: none;
 }
+
+/* Dialog */
+
+dialog {
+    border: none;
+}
+dialog:focus-visible {
+    outline: none;
+}

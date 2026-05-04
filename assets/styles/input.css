@@ -16,7 +16,7 @@
 .label {
     display: block;
     margin-bottom: 0.3rem;
-    font-size: 0.9rem;
+    font-size: 1.2rem;
     font-weight: bold;
     color: #ffffff;
     transition: color 0.3s cubic-bezier(0.25, 0.01, 0.25, 1) 0s;

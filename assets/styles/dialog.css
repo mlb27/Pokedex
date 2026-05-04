@@ -1,0 +1,57 @@
+#info {
+    border-style: solid;
+    border-radius: 8px;
+    border-color: white;
+}
+#info::backdrop {
+    background-color: rgba(0, 0, 0, 0.6);
+}
+
+.eAbility::first-letter {
+    text-transform: capitalize;
+}
+
+.ehp::part(value) {
+    stroke: #00ff0d;
+}
+.eattack::part(value) {
+    stroke: #ff0000;
+}
+.edefense::part(value) {
+    stroke: #000dff;
+}
+.especial-attack::part(value) {
+    stroke: #ff00ee;
+}
+.especial-defense::part(value) {
+    stroke: #8c00ff;
+}
+.espeed::part(value) {
+    stroke: #00ffea;
+}
+
+.statProgress {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    margin: 8px;
+}
+
+.statLabel {
+    color: white;
+    font-weight: bold;
+    text-transform: capitalize;
+}
+
+/* Circle Progress */
+
+circle-progress::part(text) {
+    fill: white;
+    font-weight: bold;
+}
+
+circle-progress::part(base) {
+    width: px;
+    height: auto;
+}
