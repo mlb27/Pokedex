@@ -6,28 +6,39 @@
 #info::backdrop {
     background-color: rgba(0, 0, 0, 0.6);
 }
-
+#info h1::first-letter {
+    text-transform: capitalize;
+}
+#info .stat{
+    margin-top: 4px;
+}
 .eAbility::first-letter {
     text-transform: capitalize;
 }
 
 .ehp::part(value) {
     stroke: #00ff0d;
+    filter: drop-shadow(1px 1px 6px #00ff0d);
 }
 .eattack::part(value) {
     stroke: #ff0000;
+    filter: drop-shadow(1px 1px 6px #ff0000);
 }
 .edefense::part(value) {
     stroke: #000dff;
+    filter: drop-shadow(1px 1px 6px #000dff);
 }
 .especial-attack::part(value) {
     stroke: #ff00ee;
+    filter: drop-shadow(1px 1px 6px #ff00ee);
 }
 .especial-defense::part(value) {
     stroke: #8c00ff;
+    filter: drop-shadow(1px 1px 6px #8c00ff);
 }
 .espeed::part(value) {
     stroke: #00ffea;
+    filter: drop-shadow(1px 1px 6px #00ffea);
 }
 
 .statProgress {
@@ -50,8 +61,35 @@ circle-progress::part(text) {
     fill: white;
     font-weight: bold;
 }
-
 circle-progress::part(base) {
-    width: px;
+    width: 100px;
     height: auto;
+    overflow: visible;
+}
+
+/* Header */
+
+.pokemonHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 100%;
+    height: 150px;
+}
+
+.pokemonTitle {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+
+.pokemonImages {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.pokemonImages img {
+    width: 150px;
+    height: 150px;
 }

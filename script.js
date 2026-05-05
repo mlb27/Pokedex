@@ -12,9 +12,10 @@ let pImg;
 
 let currentOffset = 0;
 const BASE_URL = "https://pokeapi.co/api/v2/";
-const PAGE_SIZE = 100;
+const PAGE_SIZE = 40;
 
 function init() {
+    document.getElementById("info").addEventListener("close", resetInfoDialog);
     loadData();
 }
 
