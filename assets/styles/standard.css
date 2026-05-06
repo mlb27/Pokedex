@@ -1,6 +1,6 @@
 @font-face {
     font-family: "Roboto", sans-serif;
-    src: url("./assets/font/Roboto-VariableFont_wdth,wght.ttf") format("truetype-variations");
+    src: url("./assets/font/Roboto-VariableFont_wdth,wght.ttf") format("trueMainType-variations");
 }
 
 body {
@@ -74,6 +74,14 @@ a {
     font-weight: bold;
 }
 
+.italic {
+    font-style: italic;
+}
+
+.fw-200{
+    font-weight: 200;
+}
+
 /* Padding & Margin */
 
 .p-b16 {
@@ -86,10 +94,18 @@ a {
     gap: 4px 8px;
 }
 
+.gap16 {
+    gap: 16px;
+}
+
 /* Color */
 
 .white {
     color: #ffffff;
+}
+
+.black {
+    color: black;
 }
 
 .s-grey {

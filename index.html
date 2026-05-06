@@ -4,6 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Pokedex</title>
+        <link rel="icon" type="image/png" href="./assets/img/pokeball.png" />
         <link rel="stylesheet" href="./style.css" />
         <link rel="stylesheet" href="./assets/styles/standard.css" />
         <link rel="stylesheet" href="./assets/styles/assets.css" />
@@ -11,7 +12,6 @@
         <link rel="stylesheet" href="./assets/styles/button.css" />
         <link rel="stylesheet" href="./assets/styles/input.css" />
         <link rel="stylesheet" href="./assets/styles/dialog.css" />
-        <script type="module" src="./node_modules/js-circle-progress/dist/circle-progress.min.js"></script>
         <script src="./script.js"></script>
         <script src="./assets/scripts/template.js"></script>
         <script src="./assets/scripts/backgrounds.js"></script>
@@ -24,8 +24,13 @@
             <img class="flex" src="./assets/img/pokeball.png" alt="Pokeball" onclick="window.scrollTo({ top: 0 })" />
             <div class="flex flex1 jc-e">
                 <div class="input-group">
-                    <label for="search" class="label">Search</label>
+                    <label for="search" class="label">Suche</label>
                     <input autocomplete="off" name="Search" id="search" class="input white" type="search" oninput="searchForPokemon()" />
+                </div>
+                <div class="input-group">
+                    <label for="search" class="label">Suche nach ID</label>
+                    <input autocomplete="off" id="searchId" class="input white" type="search"/>
+                    <button onclick="showDialog(document.getElementById(`searchId`).value)">Suchen</button>
                 </div>
             </div>
         </nav>
@@ -35,13 +40,13 @@
             <img src="./assets/img/pokedex.png" alt="Pokedex" class="p-b16" />
             <p>Made by <a href="https://github.com/mlb27" class="yellow-p">kyr0nix</a></p>
             <p>Input field from Uiverse.io by alexruix</p>
-            <p>Circle Progress by Tigran Sargsyan</p>
         </footer>
         <dialog id="loading">
             <div class="anim-wrapper">
                 <div class="anim-pokeball"></div>
             </div>
         </dialog>
-        <dialog id="info"></dialog>
+
+        <dialog id="info" class="bg-grey"></dialog>
     </body>
 </html>

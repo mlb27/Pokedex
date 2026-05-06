@@ -12,10 +12,9 @@ let pImg;
 
 let currentOffset = 0;
 const BASE_URL = "https://pokeapi.co/api/v2/";
-const PAGE_SIZE = 40;
+const PAGE_SIZE = 100;
 
 function init() {
-    document.getElementById("info").addEventListener("close", resetInfoDialog);
     loadData();
 }
 
@@ -53,14 +52,15 @@ async function getPokemonData(responseAsJson) {
 function renderCard(ref, id) {
     mainRef = document.getElementById("main");
     mainRef.innerHTML += cardTemplate();
+    let type = ref.types[0].type.name;
 
     for (let i = 0; i < ref.types.length; i++) {
         cardRef = document.getElementById(`card${pSerial}`);
-        const type = ref.types[i].type.name;
+        let types = ref.types[i].type.name;
 
         cardStatRef = document.getElementById(`card-info${pSerial}`);
-        cardStatRef.innerHTML += returnStatTemplate(type);
-
-        renderBackgroundColor(type);
+        cardStatRef.innerHTML += returnStatTemplate(types);
     }
+
+    renderBackgroundColor(type);
 }
