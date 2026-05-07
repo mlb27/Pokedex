@@ -6,6 +6,7 @@ let eMainType;
 let eImg;
 let eId;
 let eGermanInfo;
+let eStats;
 
 function showDialog(id) {
     dialogRef = document.getElementById("info");
@@ -35,6 +36,7 @@ function definePokemonInfo(pokemonData, speciesData) {
     eMainType = pokemonData.types[0].type.name;
     eImg = pokemonData.sprites.other["official-artwork"].front_default;
     eId = pokemonData.id;
+    eStats = pokemonData.stats;
 
     eGermanInfo = speciesData.flavor_text_entries.find((entry) => entry.language.name === "de");
     eGermanText = eGermanInfo ? eGermanInfo.flavor_text.replace(/\s+/g, " ") : "Keine deutsche Beschreibung gefunden.";
@@ -47,7 +49,7 @@ async function renderDialog(pokemonData, speciesData) {
 
     let eTypesRef = await document.getElementById("eTypes");
     for (let i = 0; i < pokemonData.types.length; i++) {
-        eTypesRef.innerHTML += `<span class="badge white ${renderBackgroundColor(pokemonData.types[i].type.name)}"> <p>${pokemonData.types[i].type.name}</p> </span>`;
+        eTypesRef.innerHTML += `<span class="badge white ${renderBackgroundColor(pokemonData.types[i].type.name)} flex alig-i-c"> <p>${pokemonData.types[i].type.name}</p> </span>`;
     }
     let eEvoRef = document.getElementById("eEvo");
     let preEvolution = speciesData.evolves_from_species;
@@ -106,44 +108,27 @@ function dialogTemplate() {
                     <br />
                     <span>
                         <p class="fw-200">HP</p>
-                        <div class="progress">
-                            <div class="progress-value hp"></div>
-                        </div>
+                        <h2>${eStats[0].base_stat}</h2>
                     </span>
-                    <br />
                     <span>
                         <p class="fw-200">Angriff</p>
-                        <div class="progress">
-                            <div class="progress-value atk"></div>
-                        </div>
+                        <h2>${eStats[1].base_stat}</h2>
                     </span>
-                    <br />
                     <span>
                         <p class="fw-200">Verteidigung</p>
-                        <div class="progress">
-                            <div class="progress-value def"></div>
-                        </div>
+                        <h2>${eStats[2].base_stat}</h2>
                     </span>
-                    <br />
                     <span>
                         <p class="fw-200">Spezial Angriff</p>
-                        <div class="progress">
-                            <div class="progress-value sp-atk"></div>
-                        </div>
+                        <h2>${eStats[3].base_stat}</h2>
                     </span>
-                    <br />
                     <span>
                         <p class="fw-200">Spezial Verteidigung</p>
-                        <div class="progress">
-                            <div class="progress-value sp-def"></div>
-                        </div>
+                        <h2>${eStats[4].base_stat}</h2>
                     </span>
-                    <br />
                     <span>
                         <p class="fw-200">Geschwindigkeit</p>
-                        <div class="progress">
-                            <div class="progress-value speed"></div>
-                        </div>
+                        <h2>${eStats[5].base_stat}</h2>
                     </span>
                 </span>
                 <span id="eEvo" class="eEvo">

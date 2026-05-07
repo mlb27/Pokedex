@@ -49,27 +49,7 @@
     text-transform: capitalize;
 }
 
-/* Filter Buttons */
-
-.filter-btn {
-    padding: 4px 10px;
-    border-radius: 16px;
-    border-color: white;
-    border-style: solid;
-    max-width: 360px;
-}
-.filter-btn:hover {
-    cursor: pointer;
-}
-
-/* Pokeball Loader */
-/* by Vincenzo Bianco */
-
-* {
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
+/* Lade Animation */
 
 .anim-wrapper {
     transform: scale(2);
@@ -85,7 +65,6 @@
     border: 3px solid;
     animation: frames 0.8s linear 0s infinite;
 }
-
 .anim-pokeball:after {
     content: "";
     position: absolute;
@@ -95,7 +74,6 @@
     border-bottom: 4px solid;
     top: -4px;
 }
-
 .anim-pokeball:before {
     content: "";
     position: absolute;
@@ -110,7 +88,6 @@
 }
 
 @keyframes frames {
-    /* Animation Frames */
     0% {
         transform: rotate(0deg);
     }
@@ -119,7 +96,7 @@
     }
 }
 
-/* Loader Dialog */
+/* Lade Dialog */
 
 #loading {
     max-width: none;
@@ -133,20 +110,4 @@
 }
 #loading::backdrop {
     background-color: rgba(0, 0, 0, 0.7);
-}
-
-/* Badge */
-
-.badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-
-    height: 38px;
-    padding: 6px 20px;
-    border-radius: 999px;
-
-    background: #f3f3f3;
-
-    filter: drop-shadow(2px 3px 5px #ffffff20);
 }

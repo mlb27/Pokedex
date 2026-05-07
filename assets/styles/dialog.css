@@ -16,8 +16,8 @@
     justify-content: center;
 }
 #info header img {
-    width: 275px;
-    height: 275px;
+    width: 250px;
+    height: 250px;
     padding-top: 16px;
     position: absolute;
     transition: all 0.1s ease;
@@ -121,25 +121,6 @@
     width: 0;
 }
 
-.hp {
-    background-color: #ff0000;
-}
-.atk {
-    background-color: #ffff00;
-}
-.def {
-    background-color: #00ff00;
-}
-.sp-atk {
-    background-color: #00ffff;
-}
-.sp-def {
-    background-color: #0000ff;
-}
-.speed {
-    background-color: #ff00ff;
-}
-
 @keyframes load {
     0% {
         width: 0;
@@ -147,4 +128,16 @@
     100% {
         width: 68%;
     }
+}
+
+/* Badge */
+
+.badge {
+    gap: 6px;
+
+    height: 38px;
+    padding: 6px 20px;
+    border-radius: 999px;
+
+    filter: drop-shadow(2px 3px 5px #ffffff20);
 }

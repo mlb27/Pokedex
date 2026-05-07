@@ -17,6 +17,11 @@ nav img:hover {
     transform: scale(1.01);
 }
 
+footer {
+    margin-top: auto;
+    padding: 32px 0px;
+}
+
 footer img {
     height: 50px;
 }

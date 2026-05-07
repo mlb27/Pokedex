@@ -4,7 +4,6 @@ let cardStatRef;
 
 let responseAsJson;
 let pokemonAsJson;
-let loadedPokemon = {};
 
 let pName;
 let pSerial;
@@ -12,7 +11,7 @@ let pImg;
 
 let currentOffset = 0;
 const BASE_URL = "https://pokeapi.co/api/v2/";
-const PAGE_SIZE = 100;
+const PAGE_SIZE = 50;
 
 function init() {
     loadData();
@@ -24,10 +23,6 @@ async function loadData() {
     currentOffset += PAGE_SIZE;
 
     await getPokemonData(responseAsJson);
-}
-
-async function loadMore() {
-    await loadData();
 }
 
 async function getPokemonData(responseAsJson) {
