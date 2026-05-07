@@ -147,7 +147,7 @@
 
 /* Responsive */
 
-@media (max-width: 959px) {
+@media (max-width: 1099px) {
     .input-group {
         display: none;
     }
