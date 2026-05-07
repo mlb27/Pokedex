@@ -7,21 +7,39 @@ let eImg;
 let eId;
 let eGermanInfo;
 let eStats;
+let notFoundTimeout;
 
 function showDialog(id) {
+    clearTimeout(notFoundTimeout);
     dialogRef = document.getElementById("info");
+    dialogRef.className = "bg-grey";
     dialogRef.innerHTML = "";
-    let selectedRef = document.getElementById(`card${id}`);
-    let selectedPokemon = id;
+    let selectedPokemon = String(id).trim().toLowerCase();
 
-    // dialogRef.className = selectedRef.className;
+    if (!selectedPokemon) {
+        showNotFoundDialog();
+        return;
+    }
+
     getExtendedInfo(selectedPokemon);
 }
 
 async function getExtendedInfo(id) {
     let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+
+    if (!response.ok) {
+        showNotFoundDialog();
+        return;
+    }
+
     let pokemonData = await response.json();
     let speciesResponse = await fetch(pokemonData.species.url);
+
+    if (!speciesResponse.ok) {
+        showNotFoundDialog();
+        return;
+    }
+
     let speciesData = await speciesResponse.json();
 
     console.log(pokemonData);
@@ -49,7 +67,7 @@ async function renderDialog(pokemonData, speciesData) {
 
     let eTypesRef = await document.getElementById("eTypes");
     for (let i = 0; i < pokemonData.types.length; i++) {
-        eTypesRef.innerHTML += `<span class="badge white ${renderBackgroundColor(pokemonData.types[i].type.name)} flex alig-i-c"> <p>${pokemonData.types[i].type.name}</p> </span>`;
+        eTypesRef.innerHTML += `<span class="badge white ${getBackgroundColorClass(pokemonData.types[i].type.name)} flex alig-i-c"> <p>${pokemonData.types[i].type.name}</p> </span>`;
     }
     let eEvoRef = document.getElementById("eEvo");
     let preEvolution = speciesData.evolves_from_species;
@@ -70,8 +88,21 @@ async function renderDialog(pokemonData, speciesData) {
     if (!dialogRef.open) {
         dialogRef.showModal();
     }
+}
 
-    dialogRef.showModal();
+function showNotFoundDialog() {
+    dialogRef.className = "bg-s-grey not-found-dialog";
+    dialogRef.innerHTML = `<p>Pokemon wurde nicht gefunden.</p>`;
+
+    if (!dialogRef.open) {
+        dialogRef.showModal();
+    }
+
+    notFoundTimeout = setTimeout(() => {
+        if (dialogRef.open) {
+            dialogRef.close();
+        }
+    }, 2200);
 }
 
 function dialogTemplate() {
@@ -86,21 +117,9 @@ function dialogTemplate() {
                 </span>
                 <br />
                 <p class="italic">${eGermanText}</p>
-                <br />
             </section>
             <section class="info flex flex-d-row jc-sb">
-                <span class="flex flex-d-column">
-                    <p class="fw-200">Gewicht</p>
-                    <h2>90,5 kg</h2>
-                </span>
-                <span class="flex flex-d-column">
-                    <p class="fw-200">Größe</p>
-                    <h2>1,7m</h2>
-                </span>
-                <span class="flex flex-d-column">
-                    <p class="fw-200">Hauptfähigkeit</p>
-                    <h2>Blaze</h2>
-                </span>
+
             </section>
 
             <section class="stats flex jc-sb">
@@ -136,4 +155,18 @@ function dialogTemplate() {
                     <p class="fw-200">Entwickelt sich von:</p>
                 </span>
             </section>`;
+}
+
+function closeDialogOnBackdropClick(event) {
+    let dialogDimensions = event.currentTarget.getBoundingClientRect();
+
+    let clickedOutside =
+        event.clientX < dialogDimensions.left ||
+        event.clientX > dialogDimensions.right ||
+        event.clientY < dialogDimensions.top ||
+        event.clientY > dialogDimensions.bottom;
+
+    if (clickedOutside) {
+        event.currentTarget.close();
+    }
 }

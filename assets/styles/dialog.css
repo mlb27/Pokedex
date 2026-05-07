@@ -8,6 +8,24 @@
     background-color: rgba(0, 0, 0, 0.65);
 }
 
+#info.not-found-dialog {
+    width: auto;
+    padding: 24px;
+    animation: notFoundFadeOut 2.2s ease forwards;
+}
+
+@keyframes notFoundFadeOut {
+    0% {
+        opacity: 1;
+    }
+    70% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0;
+    }
+}
+
 #info header {
     height: 200px;
     border-radius: 0 0 90% 90%/0 0 100% 100%;
@@ -136,8 +154,12 @@
     gap: 6px;
 
     height: 38px;
-    padding: 6px 20px;
+    padding: 0px 20px;
     border-radius: 999px;
 
     filter: drop-shadow(2px 3px 5px #ffffff20);
+}
+
+.badge p::first-letter{
+    text-transform: capitalize;
 }

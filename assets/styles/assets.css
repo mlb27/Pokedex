@@ -2,10 +2,14 @@
     position: relative;
     min-height: 200px;
     width: 250px;
+    height: 300px;
 
     border-style: solid;
     border-radius: 8px;
     border-color: white;
+
+    overflow: hidden;
+    background-color: #3a3b3c;
 
     margin: 16px;
     padding: 16px;
@@ -16,27 +20,52 @@
 .card:hover {
     filter: drop-shadow(1px 1px 5px #ffffff);
     transform: scale(1.01);
+    cursor: pointer;
 }
 .card img {
     transition: all 0.1s ease;
     position: absolute;
-    right: 16px;
+    top: 40px;
+    left: 50%;
     height: 150px;
     width: 150px;
+    transform: translateX(-50%);
+    z-index: 1;
+}
+.card-bg-circle {
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    width: 145px;
+    height: 145px;
+    border-radius: 50%;
+    transform: translateX(-50%);
 }
 .card img:hover {
     filter: drop-shadow(1px 1px 5px #ffffff);
-    transform: scale(1.05);
+    transform: translateX(-50%) scale(1.05);
 }
+.card-title {
+    position: absolute;
+    top: 200px;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
 .card h2::first-letter {
     text-transform: capitalize;
 }
+.cardHeader{
+    height: 200px;
+}
 
 .card-info {
-    position: absolute;
     bottom: 16px;
-    left: 16px;
-    gap: 8px;
+    left: 0;
+    right: 0;
+    gap: 10px;
+    position: absolute;
 }
 
 .stat {
