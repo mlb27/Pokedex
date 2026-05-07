@@ -66,3 +66,33 @@ function renderCard(ref, id) {
         cardStatRef.innerHTML += returnCard(types, ref, i);
     }
 }
+
+function showLoadingDialog() {
+    let loadingDialogRef = document.getElementById("loading");
+    if (!loadingDialogRef.open) {
+        openDialog(loadingDialogRef);
+    }
+}
+
+function closeLoadingDialog() {
+    let loadingDialogRef = document.getElementById("loading");
+    if (loadingDialogRef.open) {
+        loadingDialogRef.close();
+    }
+}
+
+function lockBackgroundScroll() {
+    let scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+}
+
+function openDialog(dialog) {
+    dialog.showModal();
+    lockBackgroundScroll();
+}
+
+function unlockBackgroundScroll() {
+    document.body.style.overflow = "";
+    document.body.style.paddingRight = "";
+}
