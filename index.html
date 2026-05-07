@@ -15,16 +15,15 @@
         <script src="./script.js"></script>
         <script src="./assets/scripts/template.js"></script>
         <script src="./assets/scripts/backgrounds.js"></script>
-        <script src="./assets/scripts/search.js"></script>
         <script src="./assets/scripts/dialog.js"></script>
     </head>
-    <body onload="init()" class="bg-s-grey">
+    <body onload="init()" class="bg-s-grey mw">
         <nav class="flex jc-sb alig-i-c bg-s-grey">
             <div class="white flex flex1"></div>
             <img class="flex" src="./assets/img/pokeball.png" alt="Pokeball" onclick="window.scrollTo({ top: 0 })" />
             <div class="flex flex1 jc-e">
                 <div class="input-group">
-                    <p class="label">Suche nach ID</p>
+                    <p class="label">Suche nach ID/Namen</p>
                     <input autocomplete="off" id="searchId" class="input white" type="search" />
                     <button onclick="showDialog(document.getElementById(`searchId`).value)">Suchen</button>
                 </div>

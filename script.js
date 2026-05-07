@@ -17,7 +17,11 @@ const PAGE_SIZE = 40;
 function init() {
     loadData();
     let infoDialog = document.getElementById("info");
+    let loadingDialog = document.getElementById("loading");
     infoDialog.addEventListener("click", closeDialogOnBackdropClick);
+    infoDialog.addEventListener("close", unlockBackgroundScroll);
+    loadingDialog.addEventListener("close", unlockBackgroundScroll);
+    window.addEventListener("keydown", changePokemonOnKeydown);
 }
 
 async function loadData() {
@@ -59,19 +63,6 @@ function renderCard(ref, id) {
         let types = ref.types[i].type.name;
 
         cardStatRef = document.getElementById(`card-info${pId}`);
-        cardStatRef.innerHTML += `<span class="badge white ${renderBackgroundColor(types)} flex alig-i-c"> <p>${ref.types[i].type.name}</p> </span>`;
-    }
-}
-
-function showLoadingDialog() {
-    let loadingDialogRef = document.getElementById("loading");
-    if (!loadingDialogRef.open) {
-        loadingDialogRef.showModal();
-    }
-}
-function closeLoadingDialog() {
-    let loadingDialogRef = document.getElementById("loading");
-    if (loadingDialogRef.open) {
-        loadingDialogRef.close();
+        cardStatRef.innerHTML += returnCard(types, ref, i);
     }
 }
