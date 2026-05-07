@@ -28,3 +28,15 @@
 .button-38:focus-visible {
     box-shadow: none;
 }
+
+.search-button {
+    height: 44px;
+    padding: 0 18px;
+    border: 2px solid transparent;
+    border-radius: 0.75rem;
+    background-color: #3a3b3c;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}

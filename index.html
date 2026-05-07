@@ -24,8 +24,10 @@
             <div class="flex flex1 jc-e">
                 <div class="input-group">
                     <p class="label">Suche nach ID/Namen</p>
-                    <input autocomplete="off" id="searchId" class="input white" type="search" />
-                    <button onclick="showDialog(document.getElementById(`searchId`).value)">Suchen</button>
+                    <div class="search-actions flex alig-i-c">
+                        <input autocomplete="off" id="searchId" class="input white" type="search" />
+                        <button class="search-button" onclick="showDialog(document.getElementById(`searchId`).value)">Suchen</button>
+                    </div>
                 </div>
             </div>
         </nav>
