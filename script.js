@@ -45,6 +45,8 @@ async function getPokemonData() {
     }
 
     closeLoadingDialog();
+
+    enableButton();
 }
 
 async function definePokemonData(pokemonAsJson) {
@@ -54,16 +56,16 @@ async function definePokemonData(pokemonAsJson) {
     pType = pokemonAsJson.types[0].type.name;
 }
 
-function renderCard(ref, id) {
+function renderCard(pokemonAsJson) {
     mainRef = document.getElementById("main");
     mainRef.innerHTML += cardTemplate();
 
-    for (let i = 0; i < ref.types.length; i++) {
+    for (let i = 0; i < pokemonAsJson.types.length; i++) {
         cardRef = document.getElementById(`card${pId}`);
-        let types = ref.types[i].type.name;
+        let types = pokemonAsJson.types[i].type.name;
 
         cardStatRef = document.getElementById(`card-info${pId}`);
-        cardStatRef.innerHTML += returnCard(types, ref, i);
+        cardStatRef.innerHTML += returnCard(types, pokemonAsJson, i);
     }
 }
 
@@ -95,4 +97,14 @@ function openDialog(dialog) {
 function unlockBackgroundScroll() {
     document.body.style.overflow = "";
     document.body.style.paddingRight = "";
+}
+
+function disableButton() {
+    let btn = document.getElementById("search-btn");
+    btn.disabled = true;
+}
+
+function enableButton() {
+    let btn = document.getElementById("search-btn");
+    btn.disabled = false;
 }
