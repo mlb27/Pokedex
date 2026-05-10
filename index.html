@@ -1,48 +1,65 @@
 <!doctype html>
 <html lang="de">
-    <head>
-        <meta charset="UTF-8" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <title>Pokedex</title>
-        <link rel="icon" type="image/png" href="./assets/img/pokeball.png" />
-        <link rel="stylesheet" href="./style.css" />
-        <link rel="stylesheet" href="./assets/styles/standard.css" />
-        <link rel="stylesheet" href="./assets/styles/assets.css" />
-        <link rel="stylesheet" href="./assets/styles/backgrounds.css" />
-        <link rel="stylesheet" href="./assets/styles/button.css" />
-        <link rel="stylesheet" href="./assets/styles/input.css" />
-        <link rel="stylesheet" href="./assets/styles/dialog.css" />
-        <script src="./script.js"></script>
-        <script src="./assets/scripts/template.js"></script>
-        <script src="./assets/scripts/backgrounds.js"></script>
-        <script src="./assets/scripts/dialog.js"></script>
-    </head>
-    <body onload="init()" class="bg-s-grey mw">
-        <nav class="flex jc-sb alig-i-c bg-s-grey">
-            <div class="white flex flex1"></div>
-            <img class="flex" src="./assets/img/pokeball.png" alt="Pokeball" onclick="window.scrollTo({ top: 0 })" />
-            <div class="flex flex1 jc-e">
-                <div class="input-group">
-                    <p class="label">Suche nach ID/Namen</p>
-                    <div class="search-actions flex alig-i-c">
-                        <input autocomplete="off" id="searchId" class="input white" type="text" />
-                        <button class="search-button" onclick="showDialog(document.getElementById(`searchId`).value)">Suchen</button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <main class="flex flex-wrap jc-c alig-i-c" id="main"></main>
-        <div class="flex jc-c alig-i-c p-b16"><button class="button-38" onclick="loadData()" role="button">Mehr laden</button></div>
-        <footer class="flex jc-c alig-i-c flex-d-column">
-            <img src="./assets/img/pokedex.png" alt="Pokedex" class="" />
-            <p>Made by <a href="https://github.com/mlb27" class="yellow-p">kyr0nix</a></p>
-        </footer>
-        <dialog id="loading">
-            <div class="anim-wrapper">
-                <div class="anim-pokeball"></div>
-            </div>
-        </dialog>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pokedex</title>
+    <link rel="icon" type="image/png" href="./assets/img/pokeball.png" />
+    <link rel="stylesheet" href="./style.css" />
+    <link rel="stylesheet" href="./assets/styles/standard.css" />
+    <link rel="stylesheet" href="./assets/styles/assets.css" />
+    <link rel="stylesheet" href="./assets/styles/backgrounds.css" />
+    <link rel="stylesheet" href="./assets/styles/button.css" />
+    <link rel="stylesheet" href="./assets/styles/input.css" />
+    <link rel="stylesheet" href="./assets/styles/dialog.css" />
+    <script src="./script.js"></script>
+    <script src="./assets/scripts/template.js"></script>
+    <script src="./assets/scripts/backgrounds.js"></script>
+    <script src="./assets/scripts/dialog.js"></script>
+  </head>
+  <body onload="init()" class="bg-s-grey mw">
+    <nav class="flex jc-sb alig-i-c bg-s-grey">
+      <div class="white flex flex1"></div>
+      <img
+        class="flex"
+        src="./assets/img/pokeball.png"
+        alt="Pokeball"
+        onclick="window.scrollTo({ top: 0 })" />
+      <div class="flex flex1 jc-e">
+        <div class="input-group">
+          <div class="search-actions flex alig-i-c">
+            <input
+              placeholder="ID/Name"
+              id="searchId"
+              class="input white"
+              type="text" />
+            <button
+              class="search-button"
+              onclick="showDialog(document.getElementById(`searchId`).value)">
+              Suchen
+            </button>
+          </div>
+        </div>
+      </div>
+    </nav>
+    <main class="flex flex-wrap jc-c alig-i-c" id="main"></main>
+    <div class="flex jc-c alig-i-c p-b16">
+      <button class="button-38" onclick="loadData()" role="button">
+        Mehr laden
+      </button>
+    </div>
+    <footer class="flex jc-c alig-i-c flex-d-column">
+      <img src="./assets/img/pokedex.png" alt="Pokedex" class="" />
+      <p>
+        Made by <a href="https://github.com/mlb27" class="yellow-p">kyr0nix</a>
+      </p>
+    </footer>
+    <dialog id="loading">
+      <div class="anim-wrapper">
+        <div class="anim-pokeball"></div>
+      </div>
+    </dialog>
 
-        <dialog id="info" class="bg-grey"></dialog>
-    </body>
+    <dialog id="info" class="bg-grey"></dialog>
+  </body>
 </html>
