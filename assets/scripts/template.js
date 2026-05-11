@@ -36,7 +36,7 @@ function returnEvolutionTemplate(preEvolution, preImg) {
 }
 
 function dialogTemplate() {
-    return `<button class="dialog-arrow dialog-arrow-left bg-grey" onclick="event.stopPropagation(); changePokemon('last')">&lsaquo;</button>
+    return `${Number(eId) > 1 ? `<button class="dialog-arrow dialog-arrow-left bg-grey" onclick="event.stopPropagation(); changePokemon('last')">&lsaquo;</button>` : ""}
             <button class="dialog-arrow dialog-arrow-right bg-grey" onclick="event.stopPropagation(); changePokemon('next')">&rsaquo;</button>
             <header id="pokeHeader" class="${renderBackgroundColor(eMainType)}">
                 <img src="${eImg}" alt="charizard" />

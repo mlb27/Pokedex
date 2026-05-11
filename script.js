@@ -66,6 +66,7 @@ function renderCard(pokemonAsJson) {
 
         cardStatRef = document.getElementById(`card-info${pId}`);
         cardStatRef.innerHTML += returnCard(types, pokemonAsJson, i);
+        searchForPokemon();
     }
 }
 
@@ -107,4 +108,29 @@ function disableButton() {
 function enableButton() {
     let btn = document.getElementById("search-btn");
     btn.disabled = false;
+}
+
+async function searchForPokemon() {
+    let input = document.getElementById("searchId");
+    let search = input.value;
+    let nameRefs = document.querySelectorAll(".pokemonName");
+
+    for (let i = 0; i < nameRefs.length; i++) {
+        let pokemonName = nameRefs[i].innerText.toLowerCase();
+        let card = nameRefs[i].parentElement.parentElement;
+        console.log(card);
+
+        if (pokemonName.includes(search)) {
+            card.classList.remove("d-none");
+        } else {
+            card.classList.add("d-none");
+        }
+    }
+}
+
+function onPokeballClick() {
+    let input = document.getElementById("searchId");
+    window.scrollTo({ top: 0 });
+    input.value = "";
+    searchForPokemon();
 }

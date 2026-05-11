@@ -120,7 +120,7 @@ function changePokemon(direction) {
         nextId += 1;
     }
     if (nextId < 1) {
-        nextId = 1;
+        return;
     }
 
     showDialog(nextId);
