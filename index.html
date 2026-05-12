@@ -27,7 +27,7 @@
                 <div class="input-group">
                     <div class="search-actions flex alig-i-c">
                         <input placeholder="ID/Name" id="searchId" class="input white" type="text" oninput="handleSearchInput(this)" />
-                        <button class="search-button" onclick="closeMobileSearch(); showDialog(getSearchValue())">Suchen</button>
+                        <button class="search-button" onclick="showDialog(getSearchValue()); closeMobileSearch()">Suchen</button>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,7 @@
         <dialog class="mobile-search-dialog" id="mobileSearchDialog">
             <div class="mobile-search-panel">
                 <input placeholder="ID/Name" id="mobileSearchId" class="input white mobile-search-input" type="text" oninput="handleSearchInput(this)" />
-                <button class="search-button" onclick="closeMobileSearch(); showDialog(getSearchValue())">Suchen</button>
+                <button class="search-button" onclick="showDialog(getSearchValue()); closeMobileSearch()">Suchen</button>
             </div>
         </dialog>
     </body>

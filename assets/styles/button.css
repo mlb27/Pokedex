@@ -77,11 +77,6 @@
     transition: all 0.1s ease;
 }
 
-.close-button:hover {
-    background-color: rgba(0, 0, 0, 0.34);
-    transform: scale(1.08);
-}
-
 .lens-button,
 .mobile-cache-button {
     height: 44px;
@@ -105,9 +100,17 @@
     background-color: #8a272770;
 }
 
-.lens-button:hover,
-.mobile-cache-button:hover {
+.button-38:hover,
+.close-button:hover,
+.lens-button:hover {
     filter: drop-shadow(1px 1px 5px #ffffff);
+    transform: scale(1.02);
+}
+
+.clear-button:hover,
+.mobile-cache-button:hover {
+    background-color: #8a272770;
+    box-shadow: 0 0 12px rgba(138, 39, 39, 0.55);
     transform: scale(1.02);
 }
 
