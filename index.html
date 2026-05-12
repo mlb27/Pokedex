@@ -19,7 +19,9 @@
     </head>
     <body onload="init()" class="bg-s-grey mw">
         <nav class="flex jc-sb alig-i-c bg-s-grey">
-            <div class="white flex flex1"></div>
+            <div class="white flex flex1">
+                <button class="clear-button" onclick="clearStoredData()">Cache löschen</button>
+            </div>
             <img class="flex" src="./assets/img/pokeball.png" alt="Pokeball" onclick="onPokeballClick()" />
             <div class="flex flex1 jc-e">
                 <div class="input-group">
@@ -32,7 +34,7 @@
         </nav>
         <main class="flex flex-wrap jc-c alig-i-c" id="main"></main>
         <div class="flex jc-c alig-i-c p-b16">
-            <button class="button-38" id="search-btn" onclick="(loadData(), disableButton())" role="button">Mehr laden</button>
+            <button class="button-38 d-none mt16" id="search-btn" onclick="loadMorePokemon()" role="button">Mehr laden</button>
         </div>
         <footer class="flex jc-c alig-i-c flex-d-column">
             <img src="./assets/img/pokedex.png" alt="Pokedex" class="" />

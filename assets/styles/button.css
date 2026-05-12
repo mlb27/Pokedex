@@ -40,3 +40,15 @@
     font-weight: 700;
     cursor: pointer;
 }
+
+.clear-button {
+    height: 44px;
+    padding: 0 18px;
+    border: 2px solid transparent;
+    border-radius: 0.75rem;
+    background-color: #8a272770;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+}

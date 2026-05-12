@@ -6,6 +6,7 @@ let eMainType;
 let eImg;
 let eId;
 let eGermanInfo;
+let eGermanText;
 let eStats;
 let notFoundTimeout;
 
@@ -25,21 +26,59 @@ function showDialog(id) {
 }
 
 async function getExtendedInfo(id) {
-    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+    let pokemonData = await getOrFetchPokemon(id);
+
+    if (!pokemonData) {
+        showNotFoundDialog();
+        return;
+    }
+    let speciesData = await getOrFetchSpecies(pokemonData);
+    if (!speciesData) {
+        showNotFoundDialog();
+        return;
+    }
+    definePokemonInfo(pokemonData, speciesData);
+}
+
+async function getOrFetchSpecies(pokemonData) {
+    let storedSpecies = findLoadedSpecies(pokemonData.id);
+
+    if (storedSpecies) {
+        return storedSpecies.speciesData;
+    }
+    return await fetchAndSaveSpecies(pokemonData);
+}
+
+function findLoadedSpecies(id) {
+    return extendedLoadedPokemon.find((info) => Number(info.id) === Number(id));
+}
+
+async function fetchAndSaveSpecies(pokemonData) {
+    let response = await fetch(pokemonData.species.url);
 
     if (!response.ok) {
-        showNotFoundDialog();
-        return;
+        return null;
     }
-    let pokemonData = await response.json();
-    let speciesResponse = await fetch(pokemonData.species.url);
-    if (!speciesResponse.ok) {
-        showNotFoundDialog();
-        return;
-    }
-    let speciesData = await speciesResponse.json();
+    let speciesData = normalizeSpeciesData(await response.json());
+    extendedLoadedPokemon.push({ id: pokemonData.id, speciesData: speciesData });
+    saveToLocalStorage();
+    return speciesData;
+}
 
-    definePokemonInfo(pokemonData, speciesData);
+function normalizeSpeciesData(speciesData) {
+    return {
+        germanText: getGermanText(speciesData),
+        evolves_from_species: speciesData.evolves_from_species,
+    };
+}
+
+function getGermanText(speciesData) {
+    eGermanInfo = speciesData.flavor_text_entries.find((entry) => entry.language.name === "de");
+
+    if (!eGermanInfo) {
+        return "Keine deutsche Beschreibung gefunden.";
+    }
+    return eGermanInfo.flavor_text.replace(/\s+/g, " ");
 }
 
 function definePokemonInfo(pokemonData, speciesData) {
@@ -48,10 +87,7 @@ function definePokemonInfo(pokemonData, speciesData) {
     eImg = pokemonData.sprites.other["official-artwork"].front_default;
     eId = pokemonData.id;
     eStats = pokemonData.stats;
-
-    eGermanInfo = speciesData.flavor_text_entries.find((entry) => entry.language.name === "de");
-    eGermanText = eGermanInfo ? eGermanInfo.flavor_text.replace(/\s+/g, " ") : "Keine deutsche Beschreibung gefunden.";
-
+    eGermanText = speciesData.germanText;
     renderDialog(pokemonData, speciesData);
 }
 
@@ -81,8 +117,11 @@ async function renderDialogEvolution(speciesData) {
 }
 
 async function renderPreEvolution(eEvoRef, preEvolution) {
-    let preResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${preEvolution.name}`);
-    let prePokemonData = await preResponse.json();
+    let prePokemonData = await getOrFetchPokemon(preEvolution.name);
+
+    if (!prePokemonData) {
+        return;
+    }
     let preImg = prePokemonData.sprites.other["official-artwork"].front_default;
     eEvoRef.innerHTML += returnEvolutionTemplate(preEvolution, preImg);
 }
@@ -97,33 +136,31 @@ function showNotFoundDialog() {
     dialogRef.classList.remove("bg-grey");
     dialogRef.classList.add("bg-s-grey", "not-found-dialog");
     dialogRef.innerHTML = `<p>Pokemon wurde nicht gefunden.</p>`;
+    openInfoDialog();
+    notFoundTimeout = setTimeout(closeNotFoundDialog, 2200);
+}
 
-    if (!dialogRef.open) {
-        openDialog(dialogRef);
+function closeNotFoundDialog() {
+    if (dialogRef.open) {
+        dialogRef.close();
     }
-
-    notFoundTimeout = setTimeout(() => {
-        if (dialogRef.open) {
-            dialogRef.close();
-        }
-        resetInfoDialogStyle();
-    }, 2200);
+    resetInfoDialogStyle();
 }
 
 function changePokemon(direction) {
-    let nextId = Number(eId);
+    let nextId = getNextPokemonId(direction);
 
-    if (direction === "last") {
-        nextId -= 1;
-    }
-    if (direction === "next") {
-        nextId += 1;
-    }
     if (nextId < 1) {
         return;
     }
-
     showDialog(nextId);
+}
+
+function getNextPokemonId(direction) {
+    if (direction === "last") {
+        return Number(eId) - 1;
+    }
+    return Number(eId) + 1;
 }
 
 function changePokemonOnKeydown(event) {
@@ -132,6 +169,10 @@ function changePokemonOnKeydown(event) {
     if (!infoDialog.open || infoDialog.classList.contains("not-found-dialog")) {
         return;
     }
+    handleArrowKey(event);
+}
+
+function handleArrowKey(event) {
     if (event.key === "ArrowLeft") {
         event.preventDefault();
         changePokemon("last");
@@ -148,19 +189,20 @@ function resetInfoDialogStyle() {
 }
 
 function closeDialogOnBackdropClick(event) {
+    if (!isBackdropClick(event) || event.target.closest(".dialog-arrow")) {
+        return;
+    }
+    event.currentTarget.close();
+    resetInfoDialogStyle();
+}
+
+function isBackdropClick(event) {
     let dialogDimensions = event.currentTarget.getBoundingClientRect();
 
-    let clickedOutside =
+    return (
         event.clientX < dialogDimensions.left ||
         event.clientX > dialogDimensions.right ||
         event.clientY < dialogDimensions.top ||
-        event.clientY > dialogDimensions.bottom;
-
-    if (clickedOutside) {
-        if (event.target.closest(".dialog-arrow")) {
-            return;
-        }
-        event.currentTarget.close();
-        resetInfoDialogStyle();
-    }
+        event.clientY > dialogDimensions.bottom
+    );
 }
