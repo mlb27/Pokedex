@@ -38,55 +38,57 @@ function returnEvolutionTemplate(preEvolution, preImg) {
 function dialogTemplate() {
     return `${Number(eId) > 1 ? `<button class="dialog-arrow dialog-arrow-left bg-grey" onclick="event.stopPropagation(); changePokemon('last')">&lsaquo;</button>` : ""}
             <button class="dialog-arrow dialog-arrow-right bg-grey" onclick="event.stopPropagation(); changePokemon('next')">&rsaquo;</button>
-            <header id="pokeHeader" class="${renderBackgroundColor(eMainType)}">
-                <img src="${eImg}" alt="charizard" />
-            </header>
-            <section class="about flex flex-d-column">
-                <h2>${eName}</h2>
-                <p class="fw-200">#${eId}</p>
-                <br />
-                <span id="eTypes" class="eTypes flex flex-d-row gap16">
-                </span>
-                <br />
-                <p class="italic">${eGermanText}</p>
-            </section>
-            <section class="info flex flex-d-row jc-sb">
-
-            </section>
-
-            <section class="stats flex jc-sb">
-                <span>
+            <div class="dialog-content">
+                <header id="pokeHeader" class="${renderBackgroundColor(eMainType)}">
+                    <img src="${eImg}" alt="charizard" />
+                </header>
+                <section class="about flex flex-d-column">
+                    <h2>${eName}</h2>
+                    <p class="fw-200">#${eId}</p>
                     <br />
-                    <span>
-                        <p class="fw-200">HP</p>
-                        <h2>${eStats[0].base_stat}</h2>
+                    <span id="eTypes" class="eTypes flex flex-d-row gap16">
                     </span>
-                    <span>
-                        <p class="fw-200">Angriff</p>
-                        <h2>${eStats[1].base_stat}</h2>
-                    </span>
-                    <span>
-                        <p class="fw-200">Verteidigung</p>
-                        <h2>${eStats[2].base_stat}</h2>
-                    </span>
-                    <span>
-                        <p class="fw-200">Spezial Angriff</p>
-                        <h2>${eStats[3].base_stat}</h2>
-                    </span>
-                    <span>
-                        <p class="fw-200">Spezial Verteidigung</p>
-                        <h2>${eStats[4].base_stat}</h2>
-                    </span>
-                    <span>
-                        <p class="fw-200">Geschwindigkeit</p>
-                        <h2>${eStats[5].base_stat}</h2>
-                    </span>
-                </span>
-                <span id="eEvo" class="eEvo">
                     <br />
-                    <p class="fw-200">Entwickelt sich von:</p>
-                </span>
-            </section>`;
+                    <p class="italic">${eGermanText}</p>
+                </section>
+                <section class="info flex flex-d-row jc-sb">
+
+                </section>
+
+                <section class="stats flex jc-sb">
+                    <span>
+                        <br />
+                        <span>
+                            <p class="fw-200">HP</p>
+                            <h2>${eStats[0].base_stat}</h2>
+                        </span>
+                        <span>
+                            <p class="fw-200">Angriff</p>
+                            <h2>${eStats[1].base_stat}</h2>
+                        </span>
+                        <span>
+                            <p class="fw-200">Verteidigung</p>
+                            <h2>${eStats[2].base_stat}</h2>
+                        </span>
+                        <span>
+                            <p class="fw-200">Spezial Angriff</p>
+                            <h2>${eStats[3].base_stat}</h2>
+                        </span>
+                        <span>
+                            <p class="fw-200">Spezial Verteidigung</p>
+                            <h2>${eStats[4].base_stat}</h2>
+                        </span>
+                        <span>
+                            <p class="fw-200">Geschwindigkeit</p>
+                            <h2>${eStats[5].base_stat}</h2>
+                        </span>
+                    </span>
+                    <span id="eEvo" class="eEvo">
+                        <br />
+                        <p class="fw-200">Entwickelt sich von:</p>
+                    </span>
+                </section>
+            </div>`;
 }
 
 function returnCard(types, ref, i) {
