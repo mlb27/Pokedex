@@ -52,13 +52,18 @@ function dialogArrowTemplate() {
 }
 
 function leftArrowTemplate() {
-    if (Number(eId) <= 1) {
+    if (isSearchActive() && getSearchResults().length <= 1) {
+        return "";
+    } else if (!isSearchActive() && Number(eId) <= 1) {
         return "";
     }
     return `<button class="dialog-arrow dialog-arrow-left bg-grey" onclick="event.stopPropagation(); changePokemon('last')">&lsaquo;</button>`;
 }
 
 function rightArrowTemplate() {
+    if (isSearchActive() && getSearchResults().length <= 1) {
+        return "";
+    }
     return `<button class="dialog-arrow dialog-arrow-right bg-grey" onclick="event.stopPropagation(); changePokemon('next')">&rsaquo;</button>`;
 }
 

@@ -150,17 +150,59 @@ function closeNotFoundDialog() {
 function changePokemon(direction) {
     let nextId = getNextPokemonId(direction);
 
-    if (nextId < 1) {
+    if (!nextId || nextId < 1) {
         return;
     }
     showDialog(nextId);
 }
 
 function getNextPokemonId(direction) {
+    if (isSearchActive()) {
+        return getNextSearchPokemonId(direction);
+    } else {
+        return getNextDefaultPokemonId(direction);
+    }
+}
+
+function getNextDefaultPokemonId(direction) {
     if (direction === "last") {
         return Number(eId) - 1;
+    } else {
+        return Number(eId) + 1;
     }
-    return Number(eId) + 1;
+}
+
+function getNextSearchPokemonId(direction) {
+    let searchResults = getSearchResults();
+
+    if (searchResults.length === 0) {
+        return null;
+    }
+    let currentIndex = searchResults.findIndex((pokemon) => Number(pokemon.id) === Number(eId));
+    let nextIndex = getNextSearchIndex(currentIndex, direction, searchResults.length);
+    return searchResults[nextIndex].id;
+}
+
+function getNextSearchIndex(currentIndex, direction, resultCount) {
+    if (direction === "last") {
+        return getPreviousSearchIndex(currentIndex, resultCount);
+    } else {
+        return getFollowingSearchIndex(currentIndex, resultCount);
+    }
+}
+
+function getPreviousSearchIndex(currentIndex, resultCount) {
+    if (currentIndex <= 0) {
+        return resultCount - 1;
+    }
+    return currentIndex - 1;
+}
+
+function getFollowingSearchIndex(currentIndex, resultCount) {
+    if (currentIndex === -1 || currentIndex >= resultCount - 1) {
+        return 0;
+    }
+    return currentIndex + 1;
 }
 
 function changePokemonOnKeydown(event) {

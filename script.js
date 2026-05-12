@@ -285,7 +285,7 @@ function closeLoadingDialog() {
     if (loadingDialogRef.open) {
         loadingDialogRef.close();
     }
-    showLoadMoreButton();
+    updateLoadMoreButtonVisibility();
 }
 
 function hideLoadMoreButton() {
@@ -294,6 +294,14 @@ function hideLoadMoreButton() {
 
 function showLoadMoreButton() {
     document.getElementById("search-btn").classList.remove("d-none");
+}
+
+function updateLoadMoreButtonVisibility() {
+    if (isSearchActive()) {
+        hideLoadMoreButton();
+    } else {
+        showLoadMoreButton();
+    }
 }
 
 function lockBackgroundScroll() {
@@ -318,20 +326,50 @@ function toggleButton() {
 }
 
 async function searchForPokemon() {
-    let input = document.getElementById("searchId");
-    let search = input.value.trim().toLowerCase();
+    let search = getSearchValue();
     let nameRefs = document.querySelectorAll(".pokemonName");
 
     for (let i = 0; i < nameRefs.length; i++) {
         togglePokemonCard(nameRefs[i], search);
     }
+    updateLoadMoreButtonVisibility();
 }
 
 function togglePokemonCard(nameRef, search) {
     let card = nameRef.closest(".card");
     let pokemonId = card.querySelector(".pokemon-id").innerText;
-    let pokemonText = `${nameRef.innerText} ${pokemonId}`.toLowerCase();
-    card.classList.toggle("d-none", !pokemonText.includes(search));
+    card.classList.toggle("d-none", !pokemonMatchesSearchText(nameRef.innerText, pokemonId, search));
+}
+
+function getSearchValue() {
+    let input = document.getElementById("searchId");
+
+    if (!input) {
+        return "";
+    }
+    return input.value.trim().toLowerCase();
+}
+
+function isSearchActive() {
+    return getSearchValue() !== "";
+}
+
+function getSearchResults() {
+    let search = getSearchValue();
+
+    if (!search) {
+        return [];
+    }
+    return loadedPokemonData.filter((pokemon) => pokemonMatchesSearch(pokemon, search));
+}
+
+function pokemonMatchesSearch(pokemon, search) {
+    return pokemonMatchesSearchText(pokemon.name, `#${pokemon.id}`, search);
+}
+
+function pokemonMatchesSearchText(name, id, search) {
+    let pokemonText = `${name} ${id}`.toLowerCase();
+    return pokemonText.includes(search);
 }
 
 function onPokeballClick() {
