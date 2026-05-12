@@ -20,18 +20,22 @@
     <body onload="init()" class="bg-s-grey mw">
         <nav class="flex jc-sb alig-i-c bg-s-grey">
             <div class="white flex flex1">
-                <button class="clear-button" onclick="clearStoredData()">Cache löschen</button>
+                <button class="clear-button" onclick="openClearConfirmDialog()">Cache leeren</button>
             </div>
             <img class="flex" src="./assets/img/pokeball.png" alt="Pokeball" onclick="onPokeballClick()" />
             <div class="flex flex1 jc-e">
                 <div class="input-group">
                     <div class="search-actions flex alig-i-c">
-                        <input placeholder="ID/Name" id="searchId" class="input white" type="text" oninput="searchForPokemon()" />
-                        <button class="search-button" onclick="showDialog(document.getElementById(`searchId`).value)">Suchen</button>
+                        <input placeholder="ID/Name" id="searchId" class="input white" type="text" oninput="handleSearchInput(this)" />
+                        <button class="search-button" onclick="closeMobileSearch(); showDialog(getSearchValue())">Suchen</button>
                     </div>
                 </div>
             </div>
         </nav>
+
+        <h1 class="flex alig-i-c jc-c mt16 fs48">Pokédex</h1>
+        <p class="flex alig-i-c jc-c fw-200" id="loadedPokemonTag"></p>
+
         <main class="flex flex-wrap jc-c alig-i-c" id="main"></main>
         <div class="flex jc-c alig-i-c p-b16">
             <button class="button-38 d-none mt16" id="search-btn" onclick="loadMorePokemon()" role="button">Mehr laden</button>
@@ -47,5 +51,30 @@
         </dialog>
 
         <dialog id="info" class="bg-grey"></dialog>
+
+        <dialog id="clearConfirmDialog" class="clear-confirm-dialog bg-grey">
+            <h2>Bist du dir sicher?</h2>
+            <p class="fw-200">Dies löscht alle bereits geladenen Pokemon und ermöglicht es dir, sie neu zu laden.</p>
+            <div class="clear-confirm-actions">
+                <button class="clear-confirm-yes" onclick="confirmClearStoredData()">Ja</button>
+                <button class="clear-confirm-no" onclick="closeClearConfirmDialog()">Nein</button>
+            </div>
+        </dialog>
+
+        <div class="menu-bar">
+            <button class="mobile-cache-button" onclick="openClearConfirmDialog()" aria-label="Cache leeren">
+                <img src="./assets/svg/garbage-bin-recycle-bin-svgrepo-com.svg" alt="Cache leeren" />
+            </button>
+            <button class="lens-button" onclick="openMobileSearch()" aria-label="Suche öffnen">
+                <img src="./assets/svg/1093183.svg" alt="Open search bar" />
+            </button>
+        </div>
+
+        <dialog class="mobile-search-dialog" id="mobileSearchDialog">
+            <div class="mobile-search-panel">
+                <input placeholder="ID/Name" id="mobileSearchId" class="input white mobile-search-input" type="text" oninput="handleSearchInput(this)" />
+                <button class="search-button" onclick="closeMobileSearch(); showDialog(getSearchValue())">Suchen</button>
+            </div>
+        </dialog>
     </body>
 </html>

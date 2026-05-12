@@ -28,10 +28,17 @@ async function init() {
 function setupEventListeners() {
     let infoDialog = document.getElementById("info");
     let loadingDialog = document.getElementById("loading");
+    let clearConfirmDialog = document.getElementById("clearConfirmDialog");
+    let mobileSearchDialog = document.getElementById("mobileSearchDialog");
     infoDialog.addEventListener("click", closeDialogOnBackdropClick);
     infoDialog.addEventListener("close", unlockBackgroundScroll);
     loadingDialog.addEventListener("close", unlockBackgroundScroll);
+    clearConfirmDialog.addEventListener("click", closeClearConfirmDialogOnBackdrop);
+    clearConfirmDialog.addEventListener("close", unlockBackgroundScroll);
+    mobileSearchDialog.addEventListener("click", closeMobileSearchOnBackdrop);
+    mobileSearchDialog.addEventListener("close", unlockBackgroundScroll);
     window.addEventListener("keydown", changePokemonOnKeydown);
+    window.addEventListener("keydown", closeMobileSearchOnEscape);
 }
 
 async function initPokemonData() {
@@ -54,6 +61,7 @@ function saveToLocalStorage() {
     localStorage.setItem(POKEMON_STORAGE_KEY, JSON.stringify(loadedPokemonData));
     localStorage.setItem(EXTENDED_STORAGE_KEY, JSON.stringify(extendedLoadedPokemon));
     localStorage.setItem(OFFSET_STORAGE_KEY, JSON.stringify(currentOffset));
+    updateLoadedPokemonTag();
 }
 
 function getFromLocalStorage() {
@@ -61,6 +69,7 @@ function getFromLocalStorage() {
     extendedLoadedPokemon = getArrayFromStorage(EXTENDED_STORAGE_KEY);
     currentOffset = getOffsetFromStorage();
     resetOffsetWithoutPokemon();
+    updateLoadedPokemonTag();
 }
 
 function resetOffsetWithoutPokemon() {
@@ -107,6 +116,45 @@ async function clearStoredData() {
     closeLoadingDialog();
 }
 
+function openClearConfirmDialog() {
+    let clearConfirmDialog = document.getElementById("clearConfirmDialog");
+
+    if (!clearConfirmDialog.open) {
+        openDialog(clearConfirmDialog);
+    }
+}
+
+function closeClearConfirmDialog() {
+    let clearConfirmDialog = document.getElementById("clearConfirmDialog");
+
+    if (clearConfirmDialog.open) {
+        clearConfirmDialog.close();
+    }
+}
+
+async function confirmClearStoredData() {
+    closeClearConfirmDialog();
+    await waitForBrowserRender();
+    await clearStoredData();
+}
+
+function closeClearConfirmDialogOnBackdrop(event) {
+    if (isClickOutsideDialog(event)) {
+        closeClearConfirmDialog();
+    }
+}
+
+function isClickOutsideDialog(event) {
+    let dialogDimensions = event.currentTarget.getBoundingClientRect();
+
+    return (
+        event.clientX < dialogDimensions.left ||
+        event.clientX > dialogDimensions.right ||
+        event.clientY < dialogDimensions.top ||
+        event.clientY > dialogDimensions.bottom
+    );
+}
+
 function resetPokemonData() {
     loadedPokemonData = [];
     extendedLoadedPokemon = [];
@@ -117,10 +165,20 @@ function clearPokemonStorage() {
     localStorage.removeItem(POKEMON_STORAGE_KEY);
     localStorage.removeItem(EXTENDED_STORAGE_KEY);
     localStorage.removeItem(OFFSET_STORAGE_KEY);
+    updateLoadedPokemonTag();
+}
+
+function updateLoadedPokemonTag() {
+    let loadedPokemonTag = document.getElementById("loadedPokemonTag");
+
+    if (!loadedPokemonTag) {
+        return;
+    }
+    loadedPokemonTag.innerText = `${loadedPokemonData.length} Pokemon geladen und gespeichert`;
 }
 
 function clearSearchInput() {
-    document.getElementById("searchId").value = "";
+    setSearchInputValue("");
 }
 
 async function loadData() {
@@ -329,10 +387,29 @@ async function searchForPokemon() {
     let search = getSearchValue();
     let nameRefs = document.querySelectorAll(".pokemonName");
 
+    if (search.length > 0 && search.length < 3) {
+        return;
+    }
+
     for (let i = 0; i < nameRefs.length; i++) {
         togglePokemonCard(nameRefs[i], search);
     }
     updateLoadMoreButtonVisibility();
+}
+
+function handleSearchInput(input) {
+    syncSearchInputs(input);
+    searchForPokemon();
+}
+
+function syncSearchInputs(sourceInput) {
+    let inputs = getSearchInputs();
+
+    for (let i = 0; i < inputs.length; i++) {
+        if (inputs[i] !== sourceInput) {
+            inputs[i].value = sourceInput.value;
+        }
+    }
 }
 
 function togglePokemonCard(nameRef, search) {
@@ -348,6 +425,18 @@ function getSearchValue() {
         return "";
     }
     return input.value.trim().toLowerCase();
+}
+
+function getSearchInputs() {
+    return [document.getElementById("searchId"), document.getElementById("mobileSearchId")].filter(Boolean);
+}
+
+function setSearchInputValue(value) {
+    let inputs = getSearchInputs();
+
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].value = value;
+    }
 }
 
 function isSearchActive() {
@@ -373,8 +462,41 @@ function pokemonMatchesSearchText(name, id, search) {
 }
 
 function onPokeballClick() {
-    let input = document.getElementById("searchId");
     window.scrollTo({ top: 0 });
-    input.value = "";
+    clearSearchInput();
     searchForPokemon();
+}
+
+function openMobileSearch() {
+    let dialog = document.getElementById("mobileSearchDialog");
+    let input = document.getElementById("mobileSearchId");
+
+    if (!dialog || !input) {
+        return;
+    }
+    if (!dialog.open) {
+        openDialog(dialog);
+    }
+    input.value = getSearchValue();
+    setTimeout(() => input.focus(), 0);
+}
+
+function closeMobileSearch() {
+    let dialog = document.getElementById("mobileSearchDialog");
+
+    if (dialog && dialog.open) {
+        dialog.close();
+    }
+}
+
+function closeMobileSearchOnBackdrop(event) {
+    if (isClickOutsideDialog(event)) {
+        closeMobileSearch();
+    }
+}
+
+function closeMobileSearchOnEscape(event) {
+    if (event.key === "Escape") {
+        closeMobileSearch();
+    }
 }

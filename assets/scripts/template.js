@@ -43,6 +43,7 @@ function returnEvolutionTemplate(preEvolution, preImg) {
 function dialogTemplate() {
     return `${dialogArrowTemplate()}
             <div class="dialog-content">
+                <button class="close-button" onclick="document.getElementById('info').close()" aria-label="Dialog schließen">x</button>
                 ${dialogHeaderTemplate()}${dialogAboutTemplate()}${dialogInfoTemplate()}${dialogStatsTemplate()}
             </div>`;
 }
@@ -111,4 +112,8 @@ function returnCard(types, ref, i) {
 
 function renderBasePokemon(eEvoRef) {
     eEvoRef.innerHTML = `<br /> <h2>Base-Pokemon</h2> <p class="fw-200">keine Entwicklung</p>`;
+}
+
+function closeButtonTemplate() {
+    return `<button class="buy-now-dialog-x bold" onclick="closeBuyNowDialog()" aria-label="Close dialog">`
 }

@@ -25,3 +25,9 @@ footer {
 footer img {
     height: 50px;
 }
+
+@media (max-width: 1099px) {
+    footer {
+        margin-bottom: 120px;
+    }
+}
