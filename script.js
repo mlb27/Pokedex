@@ -13,8 +13,10 @@ let pType;
 let currentOffset = 0;
 let loadedPokemonData = [];
 let extendedLoadedPokemon = [];
+let typeNameCache = {};
 const BASE_URL = "https://pokeapi.co/api/v2/";
 const PAGE_SIZE = 40;
+const GERMAN_LANGUAGE = "de";
 const POKEMON_STORAGE_KEY = "loadedPokemonData";
 const EXTENDED_STORAGE_KEY = "extendedLoadedPokemon";
 const OFFSET_STORAGE_KEY = "currentOffset";
@@ -46,6 +48,7 @@ async function initPokemonData() {
         await loadData();
         return;
     }
+    await localizeLoadedPokemonData();
     renderStoredPokemon();
     await waitForBrowserRender();
     closeLoadingDialog();
@@ -214,15 +217,23 @@ async function fetchPokemonPage() {
 async function addPokemonFromUrl(url) {
     let pokemon = await fetch(url);
     pokemonAsJson = await pokemon.json();
-    addLoadedPokemon(pokemonAsJson);
+    await addLoadedPokemon(pokemonAsJson);
 }
 
-function addLoadedPokemon(pokemonData) {
-    if (findLoadedPokemon(pokemonData.id)) {
-        return;
+async function addLoadedPokemon(pokemonData) {
+    let storedPokemon = findLoadedPokemon(pokemonData.id);
+
+    if (storedPokemon) {
+        if (await localizePokemonData(storedPokemon)) {
+            saveToLocalStorage();
+        }
+        return storedPokemon;
     }
-    loadedPokemonData.push(normalizePokemonData(pokemonData));
+    let normalizedPokemon = normalizePokemonData(pokemonData);
+    await localizePokemonData(normalizedPokemon);
+    loadedPokemonData.push(normalizedPokemon);
     sortLoadedPokemon();
+    return normalizedPokemon;
 }
 
 function normalizePokemonData(pokemonData) {
@@ -231,11 +242,118 @@ function normalizePokemonData(pokemonData) {
     return {
         id: pokemonData.id,
         name: pokemonData.name,
+        germanName: pokemonData.germanName,
         sprites: { other: { "official-artwork": { front_default: officialImg } } },
         types: pokemonData.types,
         stats: pokemonData.stats,
         species: pokemonData.species,
     };
+}
+
+async function localizeLoadedPokemonData() {
+    let hasChanges = false;
+
+    for (let i = 0; i < loadedPokemonData.length; i++) {
+        hasChanges = (await localizePokemonData(loadedPokemonData[i])) || hasChanges;
+    }
+    if (hasChanges) {
+        saveToLocalStorage();
+    }
+}
+
+async function localizePokemonData(pokemonData) {
+    let hasGermanNameChanged = await localizePokemonName(pokemonData);
+    let hasGermanTypesChanged = await localizePokemonTypes(pokemonData);
+
+    return hasGermanNameChanged || hasGermanTypesChanged;
+}
+
+async function localizePokemonName(pokemonData) {
+    if (pokemonData.germanName) {
+        return false;
+    }
+    let speciesData = await getOrFetchSpecies(pokemonData);
+
+    if (!speciesData || !speciesData.germanName) {
+        return false;
+    }
+    pokemonData.germanName = speciesData.germanName;
+    return true;
+}
+
+async function localizePokemonTypes(pokemonData) {
+    let hasChanges = false;
+
+    for (let i = 0; i < pokemonData.types.length; i++) {
+        hasChanges = (await localizePokemonType(pokemonData.types[i].type)) || hasChanges;
+    }
+    return hasChanges;
+}
+
+async function localizePokemonType(typeData) {
+    if (typeData.germanName) {
+        typeNameCache[typeData.name] = typeData.germanName;
+        return false;
+    }
+    let germanName = await getGermanTypeName(typeData);
+
+    if (!germanName) {
+        return false;
+    }
+    typeData.germanName = germanName;
+    return true;
+}
+
+async function getGermanTypeName(typeData) {
+    if (typeNameCache[typeData.name]) {
+        return typeNameCache[typeData.name];
+    }
+    let typeDetails = await fetchTypeDetails(typeData);
+
+    if (!typeDetails) {
+        return null;
+    }
+    let germanName = getLocalizedName(typeDetails.names, null);
+
+    typeNameCache[typeData.name] = germanName;
+    return germanName;
+}
+
+async function fetchTypeDetails(typeData) {
+    let typeUrl = typeData.url || `${BASE_URL}type/${typeData.name}`;
+
+    try {
+        let response = await fetch(typeUrl);
+
+        if (!response.ok) {
+            return null;
+        }
+        return await response.json();
+    } catch (error) {
+        return null;
+    }
+}
+
+function getLocalizedName(names, fallbackName) {
+    if (!Array.isArray(names)) {
+        return fallbackName;
+    }
+    let germanName = names.find((entry) => entry.language.name === GERMAN_LANGUAGE);
+
+    if (germanName) {
+        return germanName.name;
+    }
+    return fallbackName;
+}
+
+function getPokemonDisplayName(pokemonData) {
+    return pokemonData.germanName || pokemonData.name;
+}
+
+function getPokemonTypeDisplayName(pokemonData, index) {
+    let typeData = pokemonData.types[index].type;
+
+    return typeData.germanName || typeData.name;
 }
 
 function sortLoadedPokemon() {
@@ -253,13 +371,20 @@ function findLoadedPokemon(searchValue) {
 }
 
 function isSamePokemon(pokemon, search) {
-    return String(pokemon.id) === search || pokemon.name.toLowerCase() === search;
+    return (
+        String(pokemon.id) === search ||
+        pokemon.name.toLowerCase() === search ||
+        getPokemonDisplayName(pokemon).toLowerCase() === search
+    );
 }
 
 async function getOrFetchPokemon(searchValue) {
     let storedPokemon = findLoadedPokemon(searchValue);
 
     if (storedPokemon) {
+        if (await localizePokemonData(storedPokemon)) {
+            saveToLocalStorage();
+        }
         return storedPokemon;
     }
     return await fetchAndSavePokemon(searchValue);
@@ -272,10 +397,10 @@ async function fetchAndSavePokemon(searchValue) {
         return null;
     }
     let pokemonData = await response.json();
-    addLoadedPokemon(pokemonData);
+    let loadedPokemon = await addLoadedPokemon(pokemonData);
     saveToLocalStorage();
     renderStoredPokemon();
-    return findLoadedPokemon(pokemonData.id);
+    return loadedPokemon;
 }
 
 function renderStoredPokemon() {
@@ -297,7 +422,7 @@ function resolveBrowserRender(resolve) {
 }
 
 function definePokemonData(pokemonAsJson) {
-    pName = pokemonAsJson.name;
+    pName = getPokemonDisplayName(pokemonAsJson);
     pImg = pokemonAsJson.sprites.other["official-artwork"].front_default;
     pId = pokemonAsJson.id;
     pType = pokemonAsJson.types[0].type.name;
@@ -453,7 +578,7 @@ function getSearchResults() {
 }
 
 function pokemonMatchesSearch(pokemon, search) {
-    return pokemonMatchesSearchText(pokemon.name, `#${pokemon.id}`, search);
+    return pokemonMatchesSearchText(getPokemonDisplayName(pokemon), `#${pokemon.id}`, search);
 }
 
 function pokemonMatchesSearchText(name, id, search) {

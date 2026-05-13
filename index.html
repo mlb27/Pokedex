@@ -20,14 +20,21 @@
     <body onload="init()" class="bg-s-grey mw">
         <nav class="flex jc-sb alig-i-c bg-s-grey">
             <div class="white flex flex1">
-                <button class="clear-button" onclick="openClearConfirmDialog()">Cache leeren</button>
+                <button class="clear-button" onclick="openClearConfirmDialog()">Stand zurücksetzen</button>
             </div>
             <img class="flex" src="./assets/img/pokeball.png" alt="Pokeball" onclick="onPokeballClick()" />
             <div class="flex flex1 jc-e">
                 <div class="input-group">
                     <div class="search-actions flex alig-i-c">
                         <input placeholder="ID/Name" id="searchId" class="input white" type="text" oninput="handleSearchInput(this)" />
-                        <button class="search-button" onclick="showDialog(getSearchValue()); closeMobileSearch()">Suchen</button>
+                        <button
+                            class="search-button"
+                            onclick="
+                                showDialog(getSearchValue());
+                                closeMobileSearch();
+                            ">
+                            Suchen
+                        </button>
                     </div>
                 </div>
             </div>
@@ -54,7 +61,7 @@
 
         <dialog id="clearConfirmDialog" class="clear-confirm-dialog bg-grey">
             <h2>Bist du dir sicher?</h2>
-            <p class="fw-200">Dies löscht alle bereits geladenen Pokemon und ermöglicht es dir, sie neu zu laden.</p>
+            <p class="fw-200">Dies löscht alle bereits gefundenen Pokemon und ermöglicht es dir, sie neu zu laden.</p>
             <div class="clear-confirm-actions">
                 <button class="clear-confirm-yes" onclick="confirmClearStoredData()">Ja</button>
                 <button class="clear-confirm-no" onclick="closeClearConfirmDialog()">Nein</button>
@@ -73,7 +80,14 @@
         <dialog class="mobile-search-dialog" id="mobileSearchDialog">
             <div class="mobile-search-panel">
                 <input placeholder="ID/Name" id="mobileSearchId" class="input white mobile-search-input" type="text" oninput="handleSearchInput(this)" />
-                <button class="search-button" onclick="showDialog(getSearchValue()); closeMobileSearch()">Suchen</button>
+                <button
+                    class="search-button"
+                    onclick="
+                        showDialog(getSearchValue());
+                        closeMobileSearch();
+                    ">
+                    Suchen
+                </button>
             </div>
         </dialog>
     </body>

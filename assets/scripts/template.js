@@ -29,14 +29,14 @@ function returnStatTemplate(type) {
 
 function returnTypesTemplate(pokemonData, i) {
     return `<span class="badge white ${getBackgroundColorClass(pokemonData.types[i].type.name)} flex alig-i-c">
-                <p>${pokemonData.types[i].type.name}</p> 
+                <p>${getPokemonTypeDisplayName(pokemonData, i)}</p> 
             </span>`;
 }
 
-function returnEvolutionTemplate(preEvolution, preImg) {
+function returnEvolutionTemplate(preEvolutionName, preEvolutionId, preImg) {
     return `
-        <h2>${preEvolution.name}</h2>
-        <img src="${preImg}" onclick="showDialog('${preEvolution.name}')" class="eEvoImg" />
+        <h2>${preEvolutionName}</h2>
+        <img src="${preImg}" onclick="showDialog(${preEvolutionId})" class="eEvoImg" />
     `;
 }
 
@@ -107,7 +107,7 @@ function dialogEvolutionBlockTemplate() {
 }
 
 function returnCard(types, ref, i) {
-    return `<span class="badge white ${renderBackgroundColor(types)} flex alig-i-c"> <p>${ref.types[i].type.name}</p> </span>`;
+    return `<span class="badge white ${renderBackgroundColor(types)} flex alig-i-c"> <p>${getPokemonTypeDisplayName(ref, i)}</p> </span>`;
 }
 
 function renderBasePokemon(eEvoRef) {

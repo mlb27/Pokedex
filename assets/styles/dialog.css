@@ -168,15 +168,9 @@
     width: 190px;
 }
 
-@media (max-width: 399px) {
-    .mobile-search-panel {
-        flex-direction: column;
-        width: calc(100vw - 48px);
-    }
+@media (max-width: 408px) {
     .mobile-search-input {
-        width: 100%;
-        max-width: none;
-        box-sizing: border-box;
+        width: 100px;
     }
 }
 

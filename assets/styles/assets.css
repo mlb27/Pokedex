@@ -177,7 +177,7 @@
     transform: translateX(-50%);
     width: 240px;
     z-index: 1000;
-    background-color: #1C1E21;
+    background-color: #1c1e21;
     height: 100px;
     gap: 14px;
     justify-content: center;
@@ -186,7 +186,7 @@
     filter: drop-shadow(10px 5px 20px #ffffff20);
 }
 
-.menu-bar ::backdrop{
+.menu-bar ::backdrop {
     filter: blur(20px);
 }
 
@@ -198,6 +198,11 @@
     }
     .menu-bar {
         display: flex;
+    }
+}
+
+@media (max-width: 430px) {
+    #mobileSearchId {
     }
 }
 

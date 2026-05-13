@@ -43,10 +43,12 @@ async function getExtendedInfo(id) {
 async function getOrFetchSpecies(pokemonData) {
     let storedSpecies = findLoadedSpecies(pokemonData.id);
 
-    if (storedSpecies) {
+    if (storedSpecies?.speciesData?.germanName) {
         return storedSpecies.speciesData;
     }
-    return await fetchAndSaveSpecies(pokemonData);
+    let fetchedSpecies = await fetchAndSaveSpecies(pokemonData);
+
+    return fetchedSpecies || storedSpecies?.speciesData || null;
 }
 
 function findLoadedSpecies(id) {
@@ -54,19 +56,34 @@ function findLoadedSpecies(id) {
 }
 
 async function fetchAndSaveSpecies(pokemonData) {
-    let response = await fetch(pokemonData.species.url);
+    try {
+        let response = await fetch(pokemonData.species.url);
 
-    if (!response.ok) {
+        if (!response.ok) {
+            return null;
+        }
+        let speciesData = normalizeSpeciesData(await response.json());
+        saveSpeciesData(pokemonData.id, speciesData);
+        saveToLocalStorage();
+        return speciesData;
+    } catch (error) {
         return null;
     }
-    let speciesData = normalizeSpeciesData(await response.json());
-    extendedLoadedPokemon.push({ id: pokemonData.id, speciesData: speciesData });
-    saveToLocalStorage();
-    return speciesData;
+}
+
+function saveSpeciesData(id, speciesData) {
+    let storedSpecies = findLoadedSpecies(id);
+
+    if (storedSpecies) {
+        storedSpecies.speciesData = speciesData;
+        return;
+    }
+    extendedLoadedPokemon.push({ id: id, speciesData: speciesData });
 }
 
 function normalizeSpeciesData(speciesData) {
     return {
+        germanName: getLocalizedName(speciesData.names, speciesData.name),
         germanText: getGermanText(speciesData),
         evolves_from_species: speciesData.evolves_from_species,
     };
@@ -82,7 +99,7 @@ function getGermanText(speciesData) {
 }
 
 function definePokemonInfo(pokemonData, speciesData) {
-    eName = pokemonData.name;
+    eName = getPokemonDisplayName(pokemonData);
     eMainType = pokemonData.types[0].type.name;
     eImg = pokemonData.sprites.other["official-artwork"].front_default;
     eId = pokemonData.id;
@@ -122,8 +139,9 @@ async function renderPreEvolution(eEvoRef, preEvolution) {
     if (!prePokemonData) {
         return;
     }
+    await localizePokemonData(prePokemonData);
     let preImg = prePokemonData.sprites.other["official-artwork"].front_default;
-    eEvoRef.innerHTML += returnEvolutionTemplate(preEvolution, preImg);
+    eEvoRef.innerHTML += returnEvolutionTemplate(getPokemonDisplayName(prePokemonData), prePokemonData.id, preImg);
 }
 
 function openInfoDialog() {
